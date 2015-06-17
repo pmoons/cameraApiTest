@@ -1,35 +1,26 @@
-// Put event listeners into place
+// When all the content on the page loaded.
 window.addEventListener("DOMContentLoaded", function() {
-	// Grab elements, create settings, etc.
-	var canvas = document.getElementById("canvas"),
-		context = canvas.getContext("2d"),
-		video = document.getElementById("video"),
-		videoObj = { "video": true },
-		errBack = function(error) {
-			console.log("Video capture error: ", error.code); 
-		};
+  // Assign getUserMedia to vendor specific version
+  navigator.getUserMedia = navigator.getUserMedia ||
+                           navigator.webkitGetUserMedia ||
+                           navigator.mozgetUserMedia ||
+                           navigator.msGetUserMedia;
 
-	// Put video listeners into place
-	if(navigator.getUserMedia) { // Standard
-		navigator.getUserMedia(videoObj, function(stream) {
-			video.src = stream;
-			video.play();
-		}, errBack);
-	} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-		navigator.webkitGetUserMedia(videoObj, function(stream){
-			video.src = window.webkitURL.createObjectURL(stream);
-			video.play();
-		}, errBack);
-	}
-	else if(navigator.mozGetUserMedia) { // Firefox-prefixed
-		navigator.mozGetUserMedia(videoObj, function(stream){
-			video.src = window.URL.createObjectURL(stream);
-			video.play();
-		}, errBack);
-	}
-}, false);
+  // If the browser supports video/audio functionality
+  if (navigator.getUserMedia) {
+    // Ask for audio/video permission
+    navigator.getUserMedia({video: true, audio: true},
+    // Permission granted, stream webcam to video element.
+    function(stream) {
+      video.src= window.URL.createObjectURL(stream); 
+    },
+    // Permission denied, print error to log
+    function(err) {
+      console.log("The following error occured: " + err.name);
+    });
+  // Browser does not support audio/video, print to log.
+  } else {
+    console.log("getUserMedia not supported");
+  }
 
-/*// Trigger photo take
-document.getElementById("snap").addEventListener("click", function() {
-	context.drawImage(video, 0, 0, 640, 480);
-});*/
+});
