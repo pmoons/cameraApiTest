@@ -29,8 +29,9 @@ window.addEventListener("DOMContentLoaded", function() {
     // and start recording.
     function(stream) {
 
-      // Set video reference to camera stream
-      video.src= window.URL.createObjectURL(stream);
+      // Set video reference to camera stream. Mute stream audio output.
+      video.src = window.URL.createObjectURL(stream);
+      video.muted = true;
 
       // Create audio stream and begin recording
       audioRecord = new RecordRTC(stream, {type: 'audio'});
