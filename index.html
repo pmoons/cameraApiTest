@@ -2,6 +2,7 @@
 <html>
 
 <head>
+	<meta charset="UTF-8">
 	<title>Camera API Test</title>
 	<script src="//cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
 	<script src="js/app.js" type="text/javascript"></script>
@@ -11,9 +12,19 @@
 <!--
 	Ideally these elements aren't created until it's confirmed that the client supports video/camera, but for the sake of illustrating the elements involved, they are created with markup (not JavaScript)
 -->
-<video id="video-playback" width="640" height="480" autoplay></video>
-<audio id="audio-playback">Your Browser Does Not Support Audio Element</audio>
-<button id="stop-recording" onclick="stopRecording()">Stop Recording</button>
+	<video id="video-playback" width="640" height="480" autoplay></video>
+	<div id="video-controls">
+		<button type="button" id="play-pause">Play</button>
+		<input type="range" id="seek-bar" value="0">
+		<button type="button" id="mute">Mute</button>
+		<input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">
+		<button type="button" id="full-screen">Full-Screen</button>
+	</div>
+
+	<audio id="audio-playback" autoplay>Your Browser Does Not Support Audio Element</audio>
+	<button id="record">Record</button>
+	<button id="stop-record">Stop Recording</button>
+
 </body>
 
 </html>
