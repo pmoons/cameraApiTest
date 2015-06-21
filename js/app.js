@@ -12,7 +12,7 @@ window.addEventListener("DOMContentLoaded", function() {
   // Assign references to HTML audio/video elements.
   audio = document.getElementById("audio-playback");
   video = document.getElementById("video");
-  recordIcon = document.getElementById("record-icon");
+  playbackControls = document.getElementById("video-controls");
 
   // Assign references to Buttons
   recordBtn = document.getElementById("record");
@@ -23,6 +23,10 @@ window.addEventListener("DOMContentLoaded", function() {
   // Assign references to Sliders
   seekBar = document.getElementById("seek-bar");
   volumeBar = document.getElementById("volume-bar");
+
+  // Assign references to Misc.
+  recordIcon = document.getElementById("record-icon");
+  countDown = document.getElementById("record-time-remaining");
 
   // Assign getUserMedia to vendor specific version
   navigator.getUserMedia = navigator.getUserMedia ||
@@ -107,6 +111,12 @@ window.addEventListener("DOMContentLoaded", function() {
 
 // When the "Stop Recording" button is pressed
 function stopRecording() {
+  // Stop and hide count down timer.
+  stopTimer();
+
+  // Set Play button to Pause button (video autoplays).
+  playPauseBtn.innerHTML = "Pause";
+
   // Move the button back to the right
   recordBtn.style.left = "40%";
 
@@ -115,6 +125,9 @@ function stopRecording() {
 
   // Hide Record Icon
   recordIcon.style.visibility = "hidden";
+
+  // Display video playback controls
+  playbackControls.style.visibility = "visible";
 
   // Stop the audio recording and play reuslt in audio element.
   audioRecord.stopRecording(function (audioURL) {
@@ -137,6 +150,12 @@ function record(stream) {
 
     // Change Record button to Stop Recording button
     recordBtn.innerHTML = "Stop Recording";
+
+    // Hide video playback controls
+    playbackControls.style.visibility = "hidden";
+
+    // Start timer
+    startTimer(60);
 
     // Set video reference to camera stream. Mute stream audio output.
     video.src = window.URL.createObjectURL(stream);
@@ -223,4 +242,31 @@ function updateSeekBar() {
 
   // Update the slider value
   seekBar.value = value;
+}
+
+// Start countdown timer for recording
+function startTimer(duration) {
+  var timer = duration, minutes, seconds;
+
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        countDown.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+            stopRecording();
+        }
+
+  }, 1000);
+
+}
+
+// Hide count down timer
+function stopTimer() {
+  countDown.style.visibility = "hidden";
 }
