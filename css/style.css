@@ -29,13 +29,16 @@
 		color-stop(0.13, rgb(3,113,168)),
 		color-stop(1, rgb(0,136,204))
 	);
+
+	/*Hide playback controls until Video is recorded*/
+	visibility: hidden;
 }
 
 #video-container:hover #video-controls {
 	opacity: .9;
 }
 
-button {
+#video-controls button {
 	background: rgba(0,0,0,.5);
 	border: 0;
 	color: #EEE;
@@ -43,10 +46,35 @@ button {
 	-moz-border-radius: 3px;
 	-o-border-radius: 3px;
 	border-radius: 3px;
+	font-size: 1em;
+}
+
+button {
+	font-size: 2em;
 }
 
 button:hover {
 	cursor: pointer;
+}
+
+#record-icon {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+    background-color: red;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	border: 1px solid black;
+
+	/*Show when recording only*/
+	visibility: hidden;
+}
+
+#record {
+	position: absolute;
+	bottom: 10px;
+	left: 40%;
 }
 
 #seek-bar {

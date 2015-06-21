@@ -12,10 +12,10 @@ window.addEventListener("DOMContentLoaded", function() {
   // Assign references to HTML audio/video elements.
   audio = document.getElementById("audio-playback");
   video = document.getElementById("video");
+  recordIcon = document.getElementById("record-icon");
 
   // Assign references to Buttons
   recordBtn = document.getElementById("record");
-  stopRecordBtn = document.getElementById("stop-record");
   playPauseBtn = document.getElementById("play-pause");
   muteBtn = document.getElementById("mute");
   fullScreenBtn = document.getElementById("full-screen");
@@ -45,10 +45,16 @@ window.addEventListener("DOMContentLoaded", function() {
       video.muted = true;
 
       // Set event handler for Record Button, passing in active video stream.
-      recordBtn.addEventListener("click", record.bind(null, stream));
-      
-      // Set event handler for Stop Recording Button.
-      stopRecordBtn.addEventListener("click", stopRecording);
+      recordBtn.addEventListener("click", function() {
+        // Record button hasn't been pressed yet, proceed with recording.
+        if (recordBtn.innerHTML === "Record") {
+          record(stream);
+        } else {
+          // Video is currently recording, stop the recording
+          stopRecording();
+        }
+
+      });
 
       // Set event handler for Play/Pause Button.
       playPauseBtn.addEventListener("click", playPause);
@@ -101,6 +107,15 @@ window.addEventListener("DOMContentLoaded", function() {
 
 // When the "Stop Recording" button is pressed
 function stopRecording() {
+  // Move the button back to the right
+  recordBtn.style.left = "40%";
+
+  // Change Stop Recording button to Record button
+  recordBtn.innerHTML = "Record";
+
+  // Hide Record Icon
+  recordIcon.style.visibility = "hidden";
+
   // Stop the audio recording and play reuslt in audio element.
   audioRecord.stopRecording(function (audioURL) {
     audio.src = audioURL;
@@ -117,16 +132,25 @@ function stopRecording() {
 
 // When the "Record" button is pressed
 function record(stream) {
-  // Set video reference to camera stream. Mute stream audio output.
-  video.src = window.URL.createObjectURL(stream);
+    // Move the button to the left to account for increased text
+    recordBtn.style.left = "31%";
 
-  // Create audio stream and begin recording
-  audioRecord = new RecordRTC(stream, {type: 'audio'});
-  audioRecord.startRecording();
+    // Change Record button to Stop Recording button
+    recordBtn.innerHTML = "Stop Recording";
 
-  // Create video stream and begin recording.
-  videoRecord = new RecordRTC(stream, {type: 'video'});
-  videoRecord.startRecording();
+    // Set video reference to camera stream. Mute stream audio output.
+    video.src = window.URL.createObjectURL(stream);
+
+    // Show Record Icon in the top left of window
+    recordIcon.style.visibility = "visible";
+
+    // Create audio stream and begin recording
+    audioRecord = new RecordRTC(stream, {type: 'audio'});
+    audioRecord.startRecording();
+
+    // Create video stream and begin recording.
+    videoRecord = new RecordRTC(stream, {type: 'video'});
+    videoRecord.startRecording();
 }
 
 // When the "Play/Pause" button is pressed
