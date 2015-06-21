@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
   // Assign references to HTML audio/video elements.
   audio = document.getElementById("audio-playback");
-  video = document.getElementById("video-playback");
+  video = document.getElementById("video");
 
   // Assign references to Buttons
   recordBtn = document.getElementById("record");
