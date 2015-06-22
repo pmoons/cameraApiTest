@@ -6,6 +6,9 @@ var audioRecord;
 var audio;
 var video;
 
+// Reference to timer interval to stop and start when necessary
+var timerInterval
+
 // When all the content on the page loaded.
 window.addEventListener("DOMContentLoaded", function() {
 
@@ -248,7 +251,7 @@ function updateSeekBar() {
 function startTimer(duration) {
   var timer = duration, minutes, seconds;
 
-    setInterval(function () {
+  timerInterval = setInterval(function () {
         minutes = parseInt(timer / 60, 10)
         seconds = parseInt(timer % 60, 10);
 
@@ -269,4 +272,5 @@ function startTimer(duration) {
 // Hide count down timer
 function stopTimer() {
   countDown.style.visibility = "hidden";
+  clearInterval(timerInterval);
 }

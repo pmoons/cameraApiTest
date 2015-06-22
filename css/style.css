@@ -32,6 +32,9 @@
 
 	/*Hide playback controls until Video is recorded*/
 	visibility: hidden;
+
+	/*Brings the video controls to the front in Full Screen mode.  Weirdest Z-index ever */
+	z-index: 2147483647;
 }
 
 #video-container:hover #video-controls {
@@ -47,6 +50,11 @@
 	-o-border-radius: 3px;
 	border-radius: 3px;
 	font-size: 1em;
+}
+
+/*Hide Full Screen Video Controls*/
+video::-webkit-media-controls-enclosure {
+  display:none !important;
 }
 
 button {
