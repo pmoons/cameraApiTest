@@ -122,7 +122,7 @@ function stopRecording() {
   stopTimer();
 
   // Set Play button to Pause button (video autoplays).
- // playPauseBtn.innerHTML = "Pause";
+  playPauseBtn.src = "../img/pause.png";
 
   // Move the button back to the right
   recordBtn.style.left = "40%";
@@ -188,7 +188,7 @@ function playPause() {
       audio.play();
 
       // Update the button text to 'Pause'
-      //playPauseBtn.innerHTML = "Pause";
+      playPauseBtn.src = "../img/pause.png"
     
     // Video is playing
     } else {
@@ -197,7 +197,7 @@ function playPause() {
       audio.pause();
 
       // Update the button text to 'Play'
-      //playPauseBtn.innerHTML = "Play";
+      playPauseBtn.src = "../img/play.png"
     }
 }
 
