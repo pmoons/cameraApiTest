@@ -92,3 +92,7 @@ button:hover {
 #volume-bar {
 	width: 60px;
 }
+
+#seek-time-location {
+	display: inline-block;
+}

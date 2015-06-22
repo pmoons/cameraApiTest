@@ -6,8 +6,11 @@ var audioRecord;
 var audio;
 var video;
 
-// Reference to timer interval to stop and start when necessary
+// Reference to count-down timer interval to stop and start when necessary
 var timerInterval
+
+// Reference to seek time
+var seekTime;
 
 // When all the content on the page loaded.
 window.addEventListener("DOMContentLoaded", function() {
@@ -30,6 +33,7 @@ window.addEventListener("DOMContentLoaded", function() {
   // Assign references to Misc.
   recordIcon = document.getElementById("record-icon");
   countDown = document.getElementById("record-time-remaining");
+  seekTime = document.getElementById("seek-time-location");
 
   // Assign getUserMedia to vendor specific version
   navigator.getUserMedia = navigator.getUserMedia ||
@@ -73,14 +77,14 @@ window.addEventListener("DOMContentLoaded", function() {
       fullScreenBtn.addEventListener("click", fullScreen);
 
       // Set event handler for Seek Bar while seeking
-      seekBar.addEventListener("change", seek);
+      seekBar.addEventListener("input", seek);
 
       // Set event handler for Seek Bar on Mouse Down
       seekBar.addEventListener("mousedown", function() {
         // Pause playback to prevent stuttering.
-        console.log("seekbar mouse down");
         video.pause();
         audio.pause();
+
       });
 
       // Set event handler for Seek Bar on Mouse Up
@@ -236,6 +240,9 @@ function seek() {
   // Update the video and audio time
   video.currentTime = time;
   audio.currentTime = time;
+
+  // Update the slider seek time.
+  formatSeekTime();
 }
 
 // Update Seek Bar location as the Video plays
@@ -245,6 +252,9 @@ function updateSeekBar() {
 
   // Update the slider value
   seekBar.value = value;
+
+  // Update the slider seek time.
+  formatSeekTime();  
 }
 
 // Start countdown timer for recording
@@ -273,4 +283,13 @@ function startTimer(duration) {
 function stopTimer() {
   countDown.style.visibility = "hidden";
   clearInterval(timerInterval);
+}
+
+// Update the slider seek time.
+function formatSeekTime() {
+  time = Math.round(video.duration * (seekBar.value / 100)) || 0;
+
+  var seconds = time < 10 ? "0" + time : time;
+
+  seekTime.textContent = ":" + seconds + "/1:00";
 }
