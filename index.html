@@ -21,11 +21,20 @@
 		<button id="record">Record</button>
 
 		<div id="video-controls">
-			<button type="button" id="play-pause">Play</button>
+			<button type="button" id="play-pause">
+				<img src="../img/play.png" width="24px" height="24px"/>
+			</button>
+
 			<input type="range" id="seek-bar" value="0">
-			<button type="button" id="mute">Mute</button>
+			
+			<button type="button" id="mute">
+				<img src="../img/volumeMute.png" width="24px" height="24px"/>
+			</button>
+			
 			<input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">
-			<button type="button" id="full-screen">Full-Screen</button>
+			<button type="button" id="full-screen">
+				<img src="../img/fullscreen.png" width="24px" height="24px" />
+			</button>
 		</div>
 
 		<audio id="audio-playback" autoplay>Your Browser Does Not Support Audio Element</audio>
