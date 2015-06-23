@@ -122,7 +122,7 @@ function stopRecording() {
   stopTimer();
 
   // Set Play button to Pause button (video autoplays).
-  playPauseBtn.src = "../img/pause.png";
+  playPauseBtn.firstElementChild.src = "../img/pause.png";
 
   // Move the button back to the right
   recordBtn.style.left = "40%";
@@ -130,8 +130,16 @@ function stopRecording() {
   // Change Stop Recording button to Record button
   recordBtn.innerHTML = "Record";
 
-  // Hide Record Icon
+  // Hide Record dot
   recordIcon.style.visibility = "hidden";
+
+  // Display correct volume icon
+  if (audio.muted == true) {
+    // Update the button image
+    muteBtn.firstElementChild.src = "../img/volumeMute.png";
+  } else {
+    muteBtn.firstElementChild.src = "../img/volumeUp.png";
+  }
 
   // Display video playback controls
   playbackControls.style.visibility = "visible";
@@ -152,6 +160,9 @@ function stopRecording() {
 
 // When the "Record" button is pressed
 function record(stream) {
+    // Start timer
+    startTimer(60);
+    
     // Move the button to the left to account for increased text
     recordBtn.style.left = "31%";
 
@@ -160,9 +171,6 @@ function record(stream) {
 
     // Hide video playback controls
     playbackControls.style.visibility = "hidden";
-
-    // Start timer
-    startTimer(60);
 
     // Set video reference to camera stream. Mute stream audio output.
     video.src = window.URL.createObjectURL(stream);
@@ -187,8 +195,8 @@ function playPause() {
       video.play();
       audio.play();
 
-      // Update the button text to 'Pause'
-      playPauseBtn.src = "../img/pause.png"
+      // Update the button image to 'Pause'
+      playPauseBtn.firstElementChild.src = "../img/pause.png"
     
     // Video is playing
     } else {
@@ -196,8 +204,8 @@ function playPause() {
       video.pause();
       audio.pause();
 
-      // Update the button text to 'Play'
-      playPauseBtn.src = "../img/play.png"
+      // Update the button image to 'Play'
+      playPauseBtn.firstElementChild.src = "../img/play.png"
     }
 }
 
@@ -208,16 +216,16 @@ function mute() {
     // Mute the audio
     audio.muted = true;
 
-    // Update the button text
-    muteBtn.innerHTML = "Unmute";
+    // Update the button image
+    muteBtn.firstElementChild.src = "../img/volumeMute.png";
   
   // Audio is muted
   } else {
     // Video is muted, unmute the video
     audio.muted = false;
 
-    // Update the button text
-    muteBtn.innerHTML = "Mute";
+    // Update the button image
+    muteBtn.firstElementChild.src = "../img/volumeUp.png";
   }
 }
 
@@ -287,9 +295,14 @@ function stopTimer() {
 
 // Update the slider seek time.
 function formatSeekTime() {
-  time = Math.round(video.duration * (seekBar.value / 100)) || 0;
+  // Round numbers to nearest whole numbers
+  var time = Math.round(video.duration * (seekBar.value / 100)) || 0;
+  var videoDuration = Math.round(video.duration) || 0;
 
-  var seconds = time < 10 ? "0" + time : time;
+  // If the number is less than 10, display a 0 in front of it.
+  time = time < 10 ? "0" + time : time;
+  videoDuration = time < 10 ? "0" + videoDuration : videoDuration;
 
-  seekTime.textContent = ":" + seconds + "/1:00";
+  // Set the text.
+  seekTime.textContent = ":" + time + "/:" + videoDuration;
 }

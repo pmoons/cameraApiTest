@@ -96,3 +96,7 @@ button:hover {
 #seek-time-location {
 	display: inline-block;
 }
+
+#full-screen {
+	float: right;
+}
