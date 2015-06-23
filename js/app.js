@@ -102,6 +102,9 @@ window.addEventListener("DOMContentLoaded", function() {
         // Update audio volume
         audio.volume = volumeBar.value;
       });
+
+      // Set event handler for Volume Bar as it moves (change volume icon, etc.)
+      volumeBar.addEventListener("input", changeVolume);
       
     },
 
@@ -212,20 +215,19 @@ function playPause() {
 // When the "Mute" button is pressed
 function mute() {
   // Audio is not muted
-  if (audio.muted == false) {
-    // Mute the audio
-    audio.muted = true;
+  if (volumeBar.value > 0) {
 
-    // Update the button image
-    muteBtn.firstElementChild.src = "../img/volumeMute.png";
+    // Capture old volume level and then change volume bar value
+    oldVolume = volumeBar.value;
+    volumeBar.value = 0;
+
+    changeVolume();
   
   // Audio is muted
   } else {
-    // Video is muted, unmute the video
-    audio.muted = false;
+    volumeBar.value = oldVolume;
 
-    // Update the button image
-    muteBtn.firstElementChild.src = "../img/volumeUp.png";
+    changeVolume();
   }
 }
 
@@ -297,12 +299,36 @@ function stopTimer() {
 function formatSeekTime() {
   // Round numbers to nearest whole numbers
   var time = Math.round(video.duration * (seekBar.value / 100)) || 0;
-  var videoDuration = Math.round(video.duration) || 0;
+  var videoDuration = Math.round(video.duration);
 
   // If the number is less than 10, display a 0 in front of it.
   time = time < 10 ? "0" + time : time;
   videoDuration = time < 10 ? "0" + videoDuration : videoDuration;
 
+  // Catch Infinity
+  if (!isFinite(videoDuration)) {
+    videoDuration = 0;
+  }
+
   // Set the text.
   seekTime.textContent = ":" + time + "/:" + videoDuration;
+}
+
+// Updates the volume icon and volume when volume bar is being moved.
+function changeVolume() {
+  // Retrieve value off volume bar
+  var volumeValue = volumeBar.value;
+  
+  // Determine correct volume icon and set volume appropriately.
+  if (volumeValue == 0) {
+    muteBtn.firstElementChild.src = "../img/volumeMute.png";
+    audio.volume = 0;
+  } else if (volumeValue > 0 && volumeValue < .5) {
+    muteBtn.firstElementChild.src = "../img/volumeDown.png";
+    audio.volume = volumeValue;
+  } else if (volumeValue >= .5) {
+    muteBtn.firstElementChild.src = "../img/volumeUp.png";
+    audio.volume = volumeValue;
+  }
+
 }
