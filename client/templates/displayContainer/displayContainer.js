@@ -6,6 +6,6 @@ Template.displayContainer.helpers({
 
 Template.displayContainer.events({
 	'click i': function() {
-		MergedAudioVideo.remove(this._id);
+		Meteor.call('deleteVideo', this._id);
 	}
 });

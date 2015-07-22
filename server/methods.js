@@ -11,18 +11,8 @@ Meteor.methods({
 
 		exec = Npm.require('child_process').exec;
 
-		var command = "ffmpeg -i " + audioFileDir + audioFile + " -i " + videoFileDir + videoFile + " -map 0:0 -map 1:0 " + mergedFileDir + mergedFile;
+		var command = "ffmpeg -i " + audioFileDir + audioFile + " -i " + videoFileDir + videoFile + "  " + mergedFileDir + mergedFile;
 		
-		var boundFunction = Meteor.bindEnvironment(function() {
-			MergedAudioVideo.insert(mergedFileDir + mergedFile, function(err, fileObj) {
-				if (err) {
-				  	console.log("Error: " + err.reason);
-				}
-			});
-		}, function(e) {
-			throw e;
-		});
-
 		child = exec(command, function(error, stdout, stderr) {
 			console.log('stdout: ' + stdout);
 			console.log('stderr: ' + stderr);
@@ -31,7 +21,28 @@ Meteor.methods({
 		    	console.log('exec error: ' + error);
 			}
 		  	
-			boundFunction();
+			insertMergedFile();
 		});
+
+		var insertMergedFile = Meteor.bindEnvironment(function() {
+			MergedAudioVideo.insert(mergedFileDir + mergedFile, function(err, fileObj) {
+				if (err) {
+				  	console.log("Error: " + err.reason);
+				} else {
+					deleteStreams();
+				}
+			});
+		}, function(e) {
+			throw e;
+		});
+
+		// Delete streams if they were merged successfully
+		var deleteStreams = Meteor.bindEnvironment(function() {
+			AudioStreams.remove(audioID);
+			VideoStreams.remove(videoID);
+		});
+	},
+	'deleteVideo': function(videoID) {
+		MergedAudioVideo.remove(videoID);
 	}
 });
