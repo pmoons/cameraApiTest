@@ -1,4 +1,4 @@
-Template.container.events({
+Template.captureContainer.events({
 	'click #submit-button': function() {
 		// Upload video and audio streams
 		upload();
