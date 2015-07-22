@@ -3,3 +3,9 @@ Template.displayContainer.helpers({
 		return MergedAudioVideo.find();
 	}
 });
+
+Template.displayContainer.events({
+	'click i': function() {
+		MergedAudioVideo.remove(this._id);
+	}
+});

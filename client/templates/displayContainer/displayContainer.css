@@ -1,0 +1,22 @@
+.video-container {
+	border: 2px solid black;
+}
+
+.video-container video {
+	display: block;
+	margin: auto;
+	margin-top: 25px;
+}
+
+p {
+	text-align: center;
+}
+
+i {
+	float: right;
+	cursor: pointer;
+}
+
+i:hover {
+	color: red;
+}

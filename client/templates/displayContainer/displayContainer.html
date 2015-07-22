@@ -3,9 +3,12 @@
 		<div class="col-xs-12">
 			{{#each video}}
 			<div class="video-container">
-				<video controls> 
+				<i class="fa fa-times fa-2x"></i>
+
+				<video width="320" height="240" controls> 
 					<source src="mergedAudioVideo/{{this.name}}">
 				</video>
+				<p>Size: {{this.size}} Bytes</p>
 			</div>
 			{{/each}}
 		</div>

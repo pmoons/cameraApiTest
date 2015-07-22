@@ -11,3 +11,4 @@ iron:router
 cfs:standard-packages
 cfs:filesystem
 twbs:bootstrap
+fortawesome:fontawesome
