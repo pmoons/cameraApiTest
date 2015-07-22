@@ -3,7 +3,7 @@ Meteor.methods({
 		var baseDir = "../../../cfs/files/";
 		var audioFileDir = baseDir + "audioStreams/";
 		var videoFileDir = baseDir + "videoStreams/";
-		var mergedFileDir = baseDir + "mergedAudioVideo/";
+		var mergedFileDir = "../../../../../public/mergedAudioVideo/";
 
 		var audioFile = "audioStreams-" + audioID + "-undefined";
 		var videoFile = "videoStreams-" + videoID + "-undefined";
@@ -14,7 +14,6 @@ Meteor.methods({
 		var command = "ffmpeg -i " + audioFileDir + audioFile + " -i " + videoFileDir + videoFile + " -map 0:0 -map 1:0 " + mergedFileDir + mergedFile;
 		
 		var boundFunction = Meteor.bindEnvironment(function() {
-			console.log("Hello?");
 			MergedAudioVideo.insert(mergedFileDir + mergedFile, function(err, fileObj) {
 				if (err) {
 				  	console.log("Error: " + err.reason);

@@ -3,7 +3,9 @@
 		<div class="col-xs-12">
 			{{#each video}}
 			<div class="video-container">
-				<video src="{{this.location}}"></video>
+				<video controls> 
+					<source src="mergedAudioVideo/{{this.name}}">
+				</video>
 			</div>
 			{{/each}}
 		</div>
