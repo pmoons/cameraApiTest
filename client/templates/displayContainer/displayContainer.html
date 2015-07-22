@@ -1,0 +1,11 @@
+<template name="displayContainer">
+	<div class="row">
+		<div class="col-xs-12">
+			{{#each video}}
+			<div class="video-container">
+				<video src="{{this.location}}">
+			</div>
+			{{/each}}
+		</div>
+	</div>
+</template>

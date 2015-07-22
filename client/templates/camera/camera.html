@@ -1,0 +1,35 @@
+<template name="camera">
+	<head>
+		<link href='http://fonts.googleapis.com/css?family=Orbitron:700' rel='stylesheet' type='text/css'>
+	</head>
+
+	<button id="record" class="btn">RECORD</button>
+	
+	<div id="video-container">
+		<video id="video" width="640" height="480" autoplay="autoplay">Your Browser Does Not Support Video Element</video>
+
+		<div id="record-icon"></div>
+		<div id="record-time-remaining"></div>
+
+		<div id="video-controls">
+			<button type="button" id="play-pause">
+				<img src="img/camera-playback-controls/pause.png" width="24px" height="24px"/>
+			</button>
+
+			<input type="range" id="seek-bar" value="0">
+			
+			<div id="seek-time-location"> </div>
+
+			<button type="button" id="mute">
+				<img src="img/camera-playback-controls/volumeMute.png" width="24px" height="24px"/>
+			</button>
+			
+			<input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">
+			<button type="button" id="full-screen">
+				<img src="/img/camera-playback-controls/fullscreen.png" width="24px" height="24px" />
+			</button>
+		</div>
+
+		<audio id="audio-playback" autoplay>Your Browser Does Not Support Audio Element</audio>
+	</div>
+</template>
